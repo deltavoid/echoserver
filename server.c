@@ -31,7 +31,7 @@ void* work(void* arg)
         recv_len = recv(sockfd, buf, BUF_SIZE, 0);
         if  (recv_len == 0)  break;
 
-        send_len = send(sockfd, buf, recv_len, 0);
+        send_len = sendfull(sockfd, buf, recv_len, 0);
     }
     
     return NULL;
