@@ -38,7 +38,7 @@ void* work(void* arg)
 
         recv_len = recv(sockfd, buf, BUF_SIZE, 0);
  
-        printf("%d %d\n", recv_len, *(int*)buf);
+        //printf("%d %d\n", recv_len, *(int*)buf);
         if  (*(int*)buf != 0x12345678)  ++mistakes;
     }
     

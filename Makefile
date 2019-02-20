@@ -1,5 +1,5 @@
 
-all : server cient
+all : server client
 
 run : server client
 	./server &
