@@ -34,11 +34,11 @@ void* work(void* arg)
     {
         //printf("req: %d\n", req);
 
-        send_len = sendfull(sockfd, buf, BUF_SIZE, 0);
+        send_len = send(sockfd, buf, BUF_SIZE, 0);
 
         recv_len = recvfull(sockfd, buf, BUF_SIZE, 0);
  
-        printf("%d %d\n", recv_len, *(int*)buf);
+        //printf("%d %d\n", recv_len, *(int*)buf);
         if  (*(int*)buf != 0x12345678)  ++mistakes;
     }
     
