@@ -1,9 +1,9 @@
 
-
+all : server cient
 
 run : server client
-#	./server &
-#	./client localhost 10000000
+	./server &
+	./client localhost 100000
 
 server : server.c
 	gcc -o server server.c -pthread

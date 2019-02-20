@@ -6,7 +6,7 @@
 
 #define PORT  3490
 #define MAX_CONS 1024
-#define BUF_SIZE 16
+#define BUF_SIZE 1024
 
 void error(const char* msg)
 {

@@ -26,16 +26,20 @@ void* work(void* arg)
     int send_len, recv_len;
     char buf[BUF_SIZE];
 
+    for (int i = 0; i < BUF_SIZE; i += 4)
+    {   *((int*)(buf + i)) = 0x12345678;
+    }
     
     while ((req = --requests) > 0)
     {
         //printf("req: %d\n", req);
 
-        send_len = send(sockfd, (char*)&req, sizeof(int), 0);
+        send_len = send(sockfd, buf, BUF_SIZE, 0);
 
-        recv_len = recv(sockfd, buf, sizeof(int), 0);
-
-        if  (*(int*)buf != req)  ++mistakes;
+        recv_len = recv(sockfd, buf, BUF_SIZE, 0);
+ 
+        printf("%d %d\n", recv_len, *(int*)buf);
+        if  (*(int*)buf != 0x12345678)  ++mistakes;
     }
     
     return NULL;
