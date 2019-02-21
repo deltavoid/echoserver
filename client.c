@@ -11,7 +11,7 @@
 
 
 #define MAX_CONS 1024
-#define MAX_BUF_SIZE 40960
+#define MAX_BUF_SIZE 4096
 int requests = 1e4;
 //int send_req, recv_req;
 int cons = 10;
