@@ -10,9 +10,11 @@
 #include "util.h"
 
 
-
+#define MAX_CONS 1024
+#define MAX_BUF_SIZE 40960
 int requests = 1e4;
-int threads = 10;
+int cons = 10;
+int buf_size = 4096;
 int mistakes = 0;
 
 int socks[MAX_CONS];
@@ -24,9 +26,9 @@ void* work(void* arg)
     int sockfd = *(int*)arg;
     int req;
     int send_len, recv_len;
-    char buf[BUF_SIZE];
+    char buf[MAX_BUF_SIZE];
 
-    for (int i = 0; i < BUF_SIZE; i += 4)
+    for (int i = 0; i < buf_size; i += 4)
     {   *((int*)(buf + i)) = 0x12345678;
     }
     
@@ -34,9 +36,9 @@ void* work(void* arg)
     {
         //printf("req: %d\n", req);
 
-        send_len = send(sockfd, buf, BUF_SIZE, 0);
+        send_len = send(sockfd, buf, buf_size, 0);
 
-        recv_len = recvfull(sockfd, buf, BUF_SIZE, 0);
+        recv_len = recvfull(sockfd, buf, buf_size, 0);
  
         //printf("%d %d\n", recv_len, *(int*)buf);
         if  (*(int*)buf != 0x12345678)  ++mistakes;
@@ -51,16 +53,17 @@ int main(int argc, char** argv)
     struct hostent* he;
     struct sockaddr_in their_addr;
 
-    if  (argc < 3)  error("usage: client <hostname> <request num> [<thread num>]");
+    if  (argc < 3)  error("usage: client <hostname> <request num> [<thread num> <buf size>]");
     sscanf(argv[2], "%d", &requests);
     printf("client %s %d\n", argv[1], requests);
 
     if  ((he = gethostbyname(argv[1])) == NULL)  error("gethostbyname");
 
-    if  (argc >= 4)  sscanf(argv[3], "%d", &threads);
+    if  (argc >= 4)  sscanf(argv[3], "%d", &cons);
+    if  (argc >= 5)  sscanf(argv[4], "%d", &buf_size);
     
     
-    for (int i = 0; i < threads; i++)
+    for (int i = 0; i < cons; i++)
     {
         if  ((socks[con_num] = socket(AF_INET, SOCK_STREAM, 0)) == -1)  error("socket");
 
@@ -79,7 +82,7 @@ int main(int argc, char** argv)
 
     }
 
-    for (int i = 0; i < threads; i++)
+    for (int i = 0; i < cons; i++)
     {
         pthread_join(tids[i], NULL);
     }

@@ -11,6 +11,8 @@
 
 
 
+#define MAX_CONS 1024
+#define BUF_SIZE 4096
 
 int socks[MAX_CONS];
 pthread_t tids[MAX_CONS];
