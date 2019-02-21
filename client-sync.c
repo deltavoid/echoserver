@@ -24,7 +24,7 @@ int con_num = 0;
 void* work(void* arg)
 {
     int sockfd = *(int*)arg;
-    int req;
+    int req = requests;
     int send_len, recv_len;
     char buf[MAX_BUF_SIZE];
 
@@ -32,7 +32,8 @@ void* work(void* arg)
     {   *((int*)(buf + i)) = 0x12345678;
     }
     
-    while ((req = --requests) > 0)
+    //while ((req = --requests) > 0)
+    while (req-- > 0)
     {
         //printf("req: %d\n", req);
 

@@ -12,3 +12,8 @@ synchronized editon
     two varients buf_size and cons control the speed of send data.
 
 
+asynchronized edition
+
+    sender and recver are asynchronized.
+
+    it may just try the maxnium bandwith of the NIC.
