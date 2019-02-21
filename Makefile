@@ -1,15 +1,19 @@
 
-all : server client
+all : server client-sync client-asyn
 
-run : server client
+run : server client-sync
 	./server &
-	./client localhost 100000
+	./client-sync localhost 100000
 
 server : server.c util.h
-	gcc -o server server.c -pthread
+	gcc -o $@ $@.c -pthread
 
-client : client.c util.h
-	gcc -o client client.c -pthread
+client-sync : client-sync.c util.h
+	gcc -o $@ $@.c -pthread
+
+client-asyn : client-asyn.c util.h
+	gcc -o $@ $@.c -pthread
+
 
 clean :
-	rm server client
+	rm server client-sync client-asyn
